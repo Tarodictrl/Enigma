@@ -41,7 +41,7 @@ UKW-B | YRUHQSLDPXNGOKMIEBFZCWVJAT
 UKW-C | FVPJIAOYEDRZXWGCTKUQSBNMHL
 
 ## Encryption
-Example for rotors III, II and I, and rings «C», «U» и «Q».
+Example for rotors III, II and I, and rings «C», «U» и «Q» after press key «A».
 
 ![image](https://github.com/user-attachments/assets/30fb1726-a9c2-4b43-bd03-fc09aa6e9b9d)
 
