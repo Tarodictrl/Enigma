@@ -1,6 +1,7 @@
-from rotor import Rotor
-from reflector import Reflector
 from string import ascii_lowercase
+
+from core.rotor import Rotor
+from core.reflector import Reflector
 
 
 class Enigma:
@@ -20,16 +21,19 @@ class Enigma:
     def press(self, symbol: str) -> str:
         self.__turn_rotor(index=len(self.rotors) - 1)
         symbol = symbol.lower()
+
         symbol = self.__encrypt_plugboard(symbol)
         symbol = self.__encrypt_by_rotors_right(symbol)
         symbol = self.reflector.encipher(symbol, self.rotors[0].ring)
         symbol = self.__encrypt_by_rotors_left(symbol)
+
         shift = ascii_lowercase.find(symbol) - ascii_lowercase.find(self.rotors[-1].ring)
         symbol = ascii_lowercase[shift]
         symbol = self.__encrypt_plugboard(symbol)
+
         return symbol.upper()
 
-    def __turn_rotor(self, index: int):
+    def __turn_rotor(self, index: int) -> None:
         if self.rotors[index].turn():
             self.__turn_rotor(index=index - 1)
 
@@ -39,10 +43,7 @@ class Enigma:
     ) -> str:
         rotors = self.rotors[::-1]
         for i, rotor in enumerate(rotors):
-            if i >= 1:
-                previus_rotor_ring = self.rotors[len(self.rotors) - i].ring
-            else:
-                previus_rotor_ring = None
+            previus_rotor_ring = self.rotors[len(self.rotors) - i].ring if i >= 1 else None
             symbol = rotor.encipher_right(symbol=symbol, previus_rotor_ring=previus_rotor_ring)
         return symbol
 
@@ -51,10 +52,7 @@ class Enigma:
         symbol: str,
     ) -> str:
         for i, rotor in enumerate(self.rotors):
-            if i >= 1:
-                next_rotor_ring = self.rotors[i - 1].ring
-            else:
-                next_rotor_ring = None
+            next_rotor_ring = self.rotors[i - 1].ring if i >= 1 else None
             symbol = rotor.encipher_left(symbol=symbol, next_rotor_ring=next_rotor_ring)
         return symbol
 

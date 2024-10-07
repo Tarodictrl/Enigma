@@ -1,10 +1,10 @@
 from string import ascii_lowercase
-import argparse
 
-from enigma import Enigma
-from rotor import rotorb_instance
-from reflector import reflectorb_instance
-from validator import Validator
+from core.enigma import Enigma
+from core.rotor import rotorb_instance
+from core.reflector import reflectorb_instance
+from core.validator import Validator
+from core.args import args
 
 logo: str = """
   _____         _                          
@@ -16,16 +16,6 @@ logo: str = """
                              by: tarodictrl
 """
 
-parser = argparse.ArgumentParser(formatter_class=argparse.RawTextHelpFormatter)
-parser.add_argument('-r', '--rotor',
-                    help="For example -r ROTOR_II -r ROTOR_I -r ROTOR_III.\nSupport: ROTOR_I, ROTOR_II, ROTOR_III, ROTOR_IV, ROTOR_V.\nDefault ROTOR_I, ROTOR_II, ROTOR_III",
-                    action='append', choices=rotorb_instance.values, metavar='')
-parser.add_argument('-k', '--key', help="For example --key a --key b --key c. Default a, a, a", action='append')
-parser.add_argument('--reflector', help="For example UKW_B.\nSupport: UKW_A, UKW_B, UKW_C.\nDefault: UKW_B", choices=reflectorb_instance.values, metavar='', default="UKW_B")
-parser.add_argument('--plugboard', help="For example --plugboard AB --plugboard CD", metavar='', default=[], action='append')
-
-args = parser.parse_args()
-
 if __name__ == "__main__":
     print(logo)
 
@@ -33,12 +23,13 @@ if __name__ == "__main__":
         args.rotor = ["ROTOR_I", "ROTOR_II", "ROTOR_III"]
     if args.key is None:
         args.key = ["A", "A", "A"]
+
     reflector = reflectorb_instance.build(args.reflector)
     rotors = [
         rotorb_instance.build(key)
         for key in args.rotor
     ]
-    reflector = reflectorb_instance.build(args.reflector)
+
     keys = "".join(args.key)
     plugboard = args.plugboard
 

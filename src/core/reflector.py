@@ -1,6 +1,6 @@
 from string import ascii_lowercase
 
-from builder import BaseBuilder
+from core.builder import BaseBuilder
 
 
 class Reflector:
@@ -10,7 +10,7 @@ class Reflector:
         self.wiring = wiring
 
     def encipher(self, symbol: str, previus_rotor_ring: str = "a") -> str:
-        shift = ascii_lowercase.find(symbol) - ascii_lowercase.find(previus_rotor_ring)
+        shift = (ascii_lowercase.find(symbol) - ascii_lowercase.find(previus_rotor_ring)) % 26
         return self.wiring[shift]
 
 
